@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+- Fix startup crash (ERR_REQUIRE_ESM) with Pareto Anywhere 1.25+: use Node.js 22 from the official node:22-alpine image instead of Alpine's Node 20.15.
+- Log Node.js and Pareto Anywhere versions at startup.
+
 ## 2.0.1
 - Use reelyActive's recommended quick-start clone (`git clone --recurse-submodules`) with full history.
 - Keep the .git folder and git binary in the image; optional PARETO_ANYWHERE_REF checkout.

@@ -1,5 +1,5 @@
 name: Pareto Anywhere
-version: "2.0.1"
+version: "2.0.2"
 slug: pareto_anywhere
 description: reelyActive Pareto Anywhere IoT middleware, ingesting BLE data from HPE Aruba APs via IoT Transport (WebSocket)
 url: https://www.reelyactive.com/pareto/anywhere/
