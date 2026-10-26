@@ -1,5 +1,5 @@
 name: Pareto Anywhere
-version: "2.0.2"
+version: "2.2.0"
 slug: pareto_anywhere
 description: reelyActive Pareto Anywhere IoT middleware, ingesting BLE data from HPE Aruba APs via IoT Transport (WebSocket)
 url: https://www.reelyactive.com/pareto/anywhere/
@@ -9,11 +9,18 @@ arch:
 init: false
 startup: services
 boot: auto
+map:
+  - addon_config:rw
 ports:
   3001/tcp: 3001
 ports_description:
   3001/tcp: Web apps, APIs, Socket.IO (Node-RED) and Aruba IoT Transport WebSocket (/aruba)
 webui: "http://[HOST]:[PORT:3001]/"
 watchdog: "tcp://[HOST]:[PORT:3001]"
-options: {}
-schema: {}
+options:
+  enocean_devices: []
+schema:
+  enocean_devices:
+    - eurid: match(^[0-9a-fA-F]{8}(/7)?$)
+      eep: match(^[0-9a-fA-F]{2}-[0-9a-fA-F]{2}-[0-9a-fA-F]{2}$)
+      name: str?

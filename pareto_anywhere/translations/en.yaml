@@ -1,0 +1,8 @@
+configuration:
+  enocean_devices:
+    name: EnOcean devices
+    description: >-
+      EURID to EnOcean Equipment Profile (EEP) mappings, needed to decode EnOcean sensor data.
+      Each entry needs eurid (8 hex characters, e.g. 0414abcd) and eep (e.g. D2-14-41 for STM 550
+      multisensors); name is optional and only for your reference. Merged with enocean.json in the
+      add-on config folder; entries here take precedence. Restart the add-on after changes.

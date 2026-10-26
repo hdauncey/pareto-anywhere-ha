@@ -57,6 +57,57 @@ Pareto Anywhere version against reelyActive's "Configure Aruba IoT Operations" t
 - This add-on serves plain `ws://`/`http://`. If your AOS version or policy requires `wss://`, put a TLS
   reverse proxy in front (e.g. the NGINX SSL proxy add-on) and point Aruba at that.
 
+## EnOcean devices
+
+EnOcean telegrams don't identify their EnOcean Equipment Profile (EEP), so Pareto Anywhere needs a
+mapping from each device's EURID to its EEP before it can produce dynamb sensor data. Without it you
+will see raddecs for the device but no dynambs.
+
+### Option 1: the add-on Configuration tab (recommended)
+
+Add entries under **EnOcean devices** (the UI shows this list as YAML):
+
+```yaml
+- eurid: 0414abcd
+  eep: D2-14-41
+  name: Gallery 101 multisensor
+- eurid: 0414abce
+  eep: D2-14-41
+```
+
+- `eurid`: the device's 32-bit EnOcean ID, 8 hex characters (`/7` suffix optional, any case). It is
+  printed on the device and appears as `transmitterId` (with `transmitterIdType` 7) in raddecs.
+- `eep`: the profile, e.g. `D2-14-41` for STM 550 multisensors (factory default).
+- `name`: optional, for your reference; shown in the add-on log.
+
+Save, then restart the add-on.
+
+### Option 2: enocean.json (handy for long lists)
+
+The add-on keeps a persistent config folder on the HA host:
+
+- Local add-on: `/addon_configs/local_pareto_anywhere/`
+- Add-on from a Git repo: `/addon_configs/<repo-hash>_pareto_anywhere/`
+
+Edit `enocean.json` there (Samba `addon_configs` share, SSH, or Studio Code Server):
+
+```json
+{
+  "0414abcd/7": { "eepType": "D2-14-41" }
+}
+```
+
+### How they combine
+
+At startup the add-on merges both sources into the file Pareto Anywhere reads. Configuration tab
+entries win if a device appears in both. The add-on log lists each mapping and the totals, and flags
+invalid entries. Restart the add-on after any change.
+
+### HTTPS/WSS
+
+Placing `certificate.pem` and `key.pem` in the same config folder makes Pareto Anywhere serve
+HTTPS/WSS, so Aruba can use `wss://<HA host>:3001/aruba` (Node-RED must then use `https://`).
+
 ## Node-RED
 
 1. Install the Node-RED add-on and, in Node-RED → Manage palette, install

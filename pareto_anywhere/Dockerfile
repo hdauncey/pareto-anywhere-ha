@@ -28,6 +28,7 @@ RUN apk add --no-cache --virtual .build-deps python3 make g++ \
  && npm cache clean --force \
  && apk del .build-deps
 
+COPY enocean-profiles.js /opt/enocean-profiles.js
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
